@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.xenondevs.invui.gui.structure.Structure;
-import xyz.xenondevs.invui.item.builder.ItemBuilder;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -20,23 +19,23 @@ public final class GuiSettings implements ConfigValidator {
     public List<String> chatColorGUIStructure = List.of(
             "1 2 3 4 5 6 7 8 9",
             "a b c d e f r x x");
-    public ItemStack colorBlack = new ItemBuilder(Material.BLACK_DYE).setDisplayName("§0Black").get();
-    public ItemStack colorDarkBlue = new ItemBuilder(Material.BLUE_DYE).setDisplayName("§1Dark Blue").get();
-    public ItemStack colorDarkGreen = new ItemBuilder(Material.GREEN_DYE).setDisplayName("§2Dark Green").get();
-    public ItemStack colorDarkAqua = new ItemBuilder(Material.CYAN_DYE).setDisplayName("§3Dark Aqua").get();
-    public ItemStack colorDarkRed = new ItemBuilder(Material.RED_DYE).setDisplayName("§4Dark Red").get();
-    public ItemStack colorDarkPurple = new ItemBuilder(Material.PURPLE_DYE).setDisplayName("§5Dark Purple").get();
-    public ItemStack colorGold = new ItemBuilder(Material.GOLD_NUGGET).setDisplayName("§6Gold").get();
-    public ItemStack colorGray = new ItemBuilder(Material.LIGHT_GRAY_DYE).setDisplayName("§7Gray").get();
-    public ItemStack colorDarkGray = new ItemBuilder(Material.GRAY_DYE).setDisplayName("§8Dark Gray").get();
-    public ItemStack colorBlue = new ItemBuilder(Material.LIGHT_BLUE_DYE).setDisplayName("§9Blue").get();
-    public ItemStack colorGreen = new ItemBuilder(Material.LIME_DYE).setDisplayName("§aGreen").get();
-    public ItemStack colorAqua = new ItemBuilder(Material.LIGHT_BLUE_DYE).setDisplayName("§bAqua").get();
-    public ItemStack colorRed = new ItemBuilder(Material.RED_DYE).setDisplayName("§cRed").get();
-    public ItemStack colorLightPurple = new ItemBuilder(Material.PINK_DYE).setDisplayName("§dLight Purple").get();
-    public ItemStack colorYellow = new ItemBuilder(Material.YELLOW_DYE).setDisplayName("§eYellow").get();
-    public ItemStack colorWhite = new ItemBuilder(Material.WHITE_DYE).setDisplayName("§fWhite").get();
-    public ItemStack colorReset = new ItemBuilder(Material.BARRIER).setDisplayName("§fReset").get();
+    public ItemStack colorBlack = namedItem(Material.BLACK_DYE, "§0Black");
+    public ItemStack colorDarkBlue = namedItem(Material.BLUE_DYE, "§1Dark Blue");
+    public ItemStack colorDarkGreen = namedItem(Material.GREEN_DYE, "§2Dark Green");
+    public ItemStack colorDarkAqua = namedItem(Material.CYAN_DYE, "§3Dark Aqua");
+    public ItemStack colorDarkRed = namedItem(Material.RED_DYE, "§4Dark Red");
+    public ItemStack colorDarkPurple = namedItem(Material.PURPLE_DYE, "§5Dark Purple");
+    public ItemStack colorGold = namedItem(Material.GOLD_NUGGET, "§6Gold");
+    public ItemStack colorGray = namedItem(Material.LIGHT_GRAY_DYE, "§7Gray");
+    public ItemStack colorDarkGray = namedItem(Material.GRAY_DYE, "§8Dark Gray");
+    public ItemStack colorBlue = namedItem(Material.LIGHT_BLUE_DYE, "§9Blue");
+    public ItemStack colorGreen = namedItem(Material.LIME_DYE, "§aGreen");
+    public ItemStack colorAqua = namedItem(Material.LIGHT_BLUE_DYE, "§bAqua");
+    public ItemStack colorRed = namedItem(Material.RED_DYE, "§cRed");
+    public ItemStack colorLightPurple = namedItem(Material.PINK_DYE, "§dLight Purple");
+    public ItemStack colorYellow = namedItem(Material.YELLOW_DYE, "§eYellow");
+    public ItemStack colorWhite = namedItem(Material.WHITE_DYE, "§fWhite");
+    public ItemStack colorReset = namedItem(Material.BARRIER, "§fReset");
 
     public String publicMailTabTitle = "Public Mail";
     public String privateMailTabTitle = "Private Mail";
@@ -181,19 +180,37 @@ public final class GuiSettings implements ConfigValidator {
     }
 
     private ItemStack getDeleteButton() {
-        return new ItemBuilder(Material.BARRIER)
-                .setDisplayName("§cDelete mail")
-                .setLegacyLore(List.of("§7Click to delete the mail"))
-                .get();
+        ItemStack item = new ItemStack(Material.BARRIER);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName("§cDelete mail");
+            meta.setLore(List.of("§7Click to delete the mail"));
+            item.setItemMeta(meta);
+        }
+        return item;
     }
 
     private ItemStack getUnreadButton() {
-        return new ItemBuilder(Material.BOOK)
-                .addEnchantment(Enchantment.DEPTH_STRIDER, 1, false)
-                .addItemFlags(ItemFlag.HIDE_ENCHANTS)
-                .setDisplayName("§cUnread mail")
-                .setLegacyLore(List.of("§7Click to set the mail as unread"))
-                .get();
+        ItemStack item = new ItemStack(Material.BOOK);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName("§cUnread mail");
+            meta.setLore(List.of("§7Click to set the mail as unread"));
+            meta.addEnchant(Enchantment.DEPTH_STRIDER, 1, false);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            item.setItemMeta(meta);
+        }
+        return item;
+    }
+
+    private static ItemStack namedItem(Material material, String name) {
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(name);
+            item.setItemMeta(meta);
+        }
+        return item;
     }
 
     public void setIngredient(String key, ItemStack item) {
