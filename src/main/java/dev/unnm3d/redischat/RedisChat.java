@@ -241,6 +241,10 @@ public final class RedisChat extends JavaPlugin {
             getLogger().info("SayanVanish found, enabling integration");
             playerListManager.addVanishIntegration(new SayanVanishIntegration());
         }
+        if (getServer().getPluginManager().getPlugin("Vanishpp") != null) {
+            getLogger().info("Vanishpp found, enabling integration");
+            playerListManager.addVanishIntegration(new VanishppIntegration(this));
+        }
         if (getServer().getPluginManager().getPlugin("Spicord") != null && config.spicord.enabled()) {
             getLogger().info("Spicord found, enabling integration");
             this.discordHook = new SpicordHook(this);

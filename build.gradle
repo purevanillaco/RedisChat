@@ -65,6 +65,7 @@ dependencies {
     compileOnly('net.essentialsx:EssentialsX:2.21.0') {
         exclude group: 'org.spigotmc', module: 'spigot-api'
     }
+    compileOnly files('libs/vanishpp-1.1.8.jar')
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.2'
