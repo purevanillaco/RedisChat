@@ -23,6 +23,7 @@ softdepend:
   - PremiumVanish
   - SuperVanish
   - SayanVanish
+  - Vanishpp
 loadbefore:
   - CMI
 commands:
